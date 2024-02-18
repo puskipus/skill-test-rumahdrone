@@ -2,6 +2,8 @@ import { Route, Routes } from "react-router-dom";
 import GuestOnlyRoute from "../components/GuestOnlyRoute";
 import Login from "../pages/Login";
 import Forbidden from "../pages/Forbidden";
+import GuardRoute from "../components/GuardRoute";
+import Dashboard from "../pages/Dashboard";
 
 export function AppRoutes() {
   return (
@@ -12,6 +14,15 @@ export function AppRoutes() {
           <GuestOnlyRoute>
             <Login />
           </GuestOnlyRoute>
+        }
+      />
+
+      <Route
+        path="/dashboard"
+        element={
+          <GuardRoute>
+            <Dashboard />
+          </GuardRoute>
         }
       />
 
