@@ -36,7 +36,7 @@ export default function InventarisUpdate() {
       cancelButtonText: "No",
     });
     if (result.isConfirmed) {
-      const res = await postData(`/inventaris`, form);
+      const res = await postData(`/inventaris/update/${id}`, form);
 
       if (res?.data?.message) {
         toast.success(res?.data?.message, {

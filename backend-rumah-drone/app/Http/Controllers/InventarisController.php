@@ -70,7 +70,7 @@ class InventarisController extends Controller
         }
 
         $validator = Validator::make(request()->all(), [
-            'namaBarang' => 'required|unique:inventaris',
+            'namaBarang' => 'required',
             'deskripsi' => 'required',
             'harga' => 'required',
             'stock' => 'required',
