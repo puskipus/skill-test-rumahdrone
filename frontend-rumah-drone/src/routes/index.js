@@ -4,6 +4,8 @@ import Login from "../pages/Login";
 import Forbidden from "../pages/Forbidden";
 import GuardRoute from "../components/GuardRoute";
 import Dashboard from "../pages/Dashboard";
+import Inventaris from "../pages/Inventaris/Inventaris";
+import InventarisAdd from "../pages/Inventaris/InventarisAdd";
 
 export function AppRoutes() {
   return (
@@ -22,6 +24,24 @@ export function AppRoutes() {
         element={
           <GuardRoute>
             <Dashboard />
+          </GuardRoute>
+        }
+      />
+
+      <Route
+        path="/inventaris"
+        element={
+          <GuardRoute>
+            <Inventaris />
+          </GuardRoute>
+        }
+      />
+
+      <Route
+        path="/inventaris/add"
+        element={
+          <GuardRoute>
+            <InventarisAdd />
           </GuardRoute>
         }
       />

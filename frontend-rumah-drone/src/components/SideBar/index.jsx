@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import SideBarAdmin from "./SideBarAdmin";
-import SideBarSales from "./SideBarSales";
 import { NavLink } from "react-router-dom";
+import SideBarStaff from "./SideBarStaff";
 
 export default function Sidebar() {
   const [role, setRole] = useState("");
@@ -44,7 +44,7 @@ export default function Sidebar() {
               </NavLink>
             </li>
 
-            {role === "admin" ? <SideBarAdmin /> : <SideBarSales />}
+            {role === "admin" ? <SideBarAdmin /> : <SideBarStaff />}
 
             {/* <li>
               <a

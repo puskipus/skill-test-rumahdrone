@@ -1,8 +1,7 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
 import NavlinkSidebar from "../Navlink/NavlinkSidebar";
 
-export default function SideBarSales() {
+export default function SideBarStaff() {
   return (
     <div>
       {/* account */}
