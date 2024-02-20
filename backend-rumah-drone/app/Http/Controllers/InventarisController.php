@@ -48,6 +48,18 @@ class InventarisController extends Controller
         }
     }
 
+    public function getByID($id)
+    {
+
+        $inventaris = Inventaris::where('id', $id)->get();
+
+        if ($inventaris) {
+            return response()->json($inventaris, 200);
+        } else {
+            return response()->json(['message' => 'Get inventaris Failed'], 404);
+        }
+    }
+
     public function destroy($id)
     {
         $inventaris = Inventaris::find($id);
