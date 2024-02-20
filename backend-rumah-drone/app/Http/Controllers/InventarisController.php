@@ -47,4 +47,16 @@ class InventarisController extends Controller
             return response()->json(['message' => 'Get Inventaris Failed'], 404);
         }
     }
+
+    public function destroy($id)
+    {
+        $inventaris = Inventaris::find($id);
+        if (!$inventaris) {
+            return response()->json(['message' => 'inventaris not found'], 404);
+        }
+
+        $inventaris->delete();
+
+        return response()->json(['message' => 'inventaris deleted successfully']);
+    }
 }

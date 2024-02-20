@@ -2,23 +2,59 @@ import React, { useEffect, useState } from "react";
 import Navbar from "../../components/Navbar";
 import Sidebar from "../../components/SideBar";
 import AddButton from "../../components/Button/AddButton";
-import { getData } from "../../utils/fetch";
+import { deleteData, getData } from "../../utils/fetch";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 export default function Inventaris() {
-  const [loading, setLoading] = useState(false);
-  const [inventaris, setInventaris] = useState("");
+  const [inventaris, setInventaris] = useState([]);
 
   const fetchInventaris = async () => {
     try {
-      setLoading(true);
       const res = await getData(`/inventaris`);
       console.log(res);
 
       setInventaris(res.data);
-      setLoading(true);
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    const result = await Swal.fire({
+      title: "Anda yakin menghapus barang ini?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Yes",
+      cancelButtonText: "No",
+    });
+    if (result.isConfirmed) {
+      const res = await deleteData(`/inventaris/${id}`);
+
+      if (res?.data?.message) {
+        toast.success(res?.data?.message, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+
+        fetchInventaris();
+      } else {
+        toast.error(res?.response?.data?.error, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      }
     }
   };
 
@@ -59,26 +95,30 @@ export default function Inventaris() {
                 </thead>
                 <tbody>
                   {inventaris.map((data, index) => (
-                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                    <tr
+                      key={index}
+                      className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                    >
                       <th
                         scope="row"
-                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                        className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                       >
                         {data.namaBarang}
                       </th>
-                      <td class="px-6 py-4">{data.harga}</td>
-                      <td class="px-6 py-4">{data.stock}</td>
-                      <td class="px-6 py-4 text-left">
+                      <td className="px-6 py-4">{data.harga}</td>
+                      <td className="px-6 py-4">{data.stock}</td>
+                      <td className="px-6 py-4 text-left">
                         <Link
                           to={"/inventaris/edit"}
                           href="#"
-                          class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                          className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
                         >
                           Edit
                         </Link>
                         <a
                           href="#"
-                          class="ml-5 font-medium text-red-600 dark:text-red-500 hover:underline"
+                          className="ml-5 font-medium text-red-600 dark:text-red-500 hover:underline"
+                          onClick={() => handleDelete(data.id)}
                         >
                           Delete
                         </a>

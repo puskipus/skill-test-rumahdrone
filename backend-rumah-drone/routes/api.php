@@ -26,5 +26,6 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
 Route::group(['middleware' => ['api', 'role:admin'], 'prefix' => 'inventaris'], function ($router) {
     Route::post('/', [InventarisController::class, 'create']);
     Route::get('/', [InventarisController::class, 'get']);
+    Route::delete('/{id}', [InventarisController::class, 'destroy']);
 });
 
