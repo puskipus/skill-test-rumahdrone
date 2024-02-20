@@ -6,6 +6,7 @@ import GuardRoute from "../components/GuardRoute";
 import Dashboard from "../pages/Dashboard";
 import Inventaris from "../pages/Inventaris/Inventaris";
 import InventarisAdd from "../pages/Inventaris/InventarisAdd";
+import InventarisUpdate from "../pages/Inventaris/InventarisUpdate";
 
 export function AppRoutes() {
   return (
@@ -42,6 +43,15 @@ export function AppRoutes() {
         element={
           <GuardRoute>
             <InventarisAdd />
+          </GuardRoute>
+        }
+      />
+
+      <Route
+        path="/inventaris/edit/:id"
+        element={
+          <GuardRoute>
+            <InventarisUpdate />
           </GuardRoute>
         }
       />

@@ -61,6 +61,7 @@ export default function Inventaris() {
   useEffect(() => {
     fetchInventaris();
   }, []);
+
   return (
     <>
       <div>
@@ -109,7 +110,7 @@ export default function Inventaris() {
                       <td className="px-6 py-4">{data.stock}</td>
                       <td className="px-6 py-4 text-left">
                         <Link
-                          to={"/inventaris/edit"}
+                          to={`/inventaris/edit/${data.id}`}
                           href="#"
                           className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
                         >

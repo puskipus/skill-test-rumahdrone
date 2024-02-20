@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Inventaris;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -58,6 +59,35 @@ class InventarisController extends Controller
         } else {
             return response()->json(['message' => 'Get inventaris Failed'], 404);
         }
+    }
+
+    public function update(Request $request, $id)
+    {
+        try {
+            $inventaris = Inventaris::findOrFail($id);
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['message' => 'Inventaris Not Found'], 404);
+        }
+
+        $validator = Validator::make(request()->all(), [
+            'namaBarang' => 'required|unique:inventaris',
+            'deskripsi' => 'required',
+            'harga' => 'required',
+            'stock' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->messages());
+        }
+
+        $inventaris->namaBarang = $request->namaBarang;
+        $inventaris->deskripsi = $request->deskripsi;
+        $inventaris->harga = $request->harga;
+        $inventaris->stock = $request->stock;
+
+        $inventaris->update();
+
+        return response()->json(['message' => 'Barang inventaris updated successfully']);
     }
 
     public function destroy($id)

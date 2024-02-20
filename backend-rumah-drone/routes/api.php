@@ -28,5 +28,6 @@ Route::group(['middleware' => ['api', 'role:admin'], 'prefix' => 'inventaris'], 
     Route::get('/', [InventarisController::class, 'get']);
     Route::get('/{id}', [InventarisController::class, 'getByID']);
     Route::delete('/{id}', [InventarisController::class, 'destroy']);
+    Route::post('/update/{id}', [InventarisController::class, 'update']);
 });
 
