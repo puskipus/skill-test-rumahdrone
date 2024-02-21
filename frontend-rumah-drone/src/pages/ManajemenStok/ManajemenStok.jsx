@@ -2,11 +2,10 @@ import React, { useEffect, useState } from "react";
 import Navbar from "../../components/Navbar";
 import Sidebar from "../../components/SideBar";
 import AddButton from "../../components/Button/AddButton";
-import { deleteData, getData } from "../../utils/fetch";
-import { Link } from "react-router-dom";
-import { toast } from "react-toastify";
-import Swal from "sweetalert2";
+import { getData } from "../../utils/fetch";
 import { formatDate } from "../../utils/formatDate";
+import DownloadButton from "../../components/Button/DownloadButton";
+import { saveAs } from "file-saver";
 
 export default function ManajemenStok() {
   const [stok, setStok] = useState([]);
@@ -18,6 +17,17 @@ export default function ManajemenStok() {
       setStok(res.data);
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  const fetchPDF = async () => {
+    try {
+      const res = await getData("/stok/convert", null, "blob");
+
+      const blobData = new Blob([res.data], { type: "application/pdf" });
+      saveAs(blobData, "laporan.pdf");
+    } catch (error) {
+      console.error("Error fetching PDF:", error);
     }
   };
 
@@ -36,7 +46,11 @@ export default function ManajemenStok() {
           <div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14">
             <div className="flex justify-between items-center">
               <h1 className="text-3xl">Manajemen Stok</h1>
-              {role === "staff" ? <AddButton to="/stok/add" /> : null}
+              {role === "staff" ? (
+                <AddButton to="/stok/add" />
+              ) : (
+                <DownloadButton onCLick={() => fetchPDF()} />
+              )}
             </div>
 
             {/* table */}
