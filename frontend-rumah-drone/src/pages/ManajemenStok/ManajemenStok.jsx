@@ -6,62 +6,24 @@ import { deleteData, getData } from "../../utils/fetch";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
+import { formatDate } from "../../utils/formatDate";
 
 export default function ManajemenStok() {
-  const [inventaris, setInventaris] = useState([]);
+  const [stok, setStok] = useState([]);
   const [role, setRole] = useState("");
 
-  const fetchInventaris = async () => {
+  const fetchStok = async () => {
     try {
-      const res = await getData(`/inventaris`);
-      console.log(res);
-
-      setInventaris(res.data);
+      const res = await getData(`/stok`);
+      setStok(res.data);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const handleDelete = async (id) => {
-    const result = await Swal.fire({
-      title: "Anda yakin menghapus barang ini?",
-      icon: "question",
-      showCancelButton: true,
-      confirmButtonText: "Yes",
-      cancelButtonText: "No",
-    });
-    if (result.isConfirmed) {
-      const res = await deleteData(`/inventaris/${id}`);
-
-      if (res?.data?.message) {
-        toast.success(res?.data?.message, {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
-
-        fetchInventaris();
-      } else {
-        toast.error(res?.response?.data?.error, {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
-      }
-    }
-  };
-
   useEffect(() => {
     setRole(JSON.parse(localStorage.getItem("role")));
-    fetchInventaris();
+    fetchStok();
   }, []);
 
   return (
@@ -86,20 +48,21 @@ export default function ManajemenStok() {
                       Nama Barang
                     </th>
                     <th scope="col" class="px-6 py-3">
-                      Harga
+                      Jenis
                     </th>
                     <th scope="col" class="px-6 py-3">
-                      Stock
+                      Keterangan
                     </th>
-                    {role === "admin" ? (
-                      <th scope="col" class="px-6 py-3">
-                        Action
-                      </th>
-                    ) : null}
+                    <th scope="col" class="px-6 py-3">
+                      Jumlah
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                      Tanggal
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
-                  {inventaris.map((data, index) => (
+                  {stok.map((data, index) => (
                     <tr
                       key={index}
                       className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
@@ -110,26 +73,12 @@ export default function ManajemenStok() {
                       >
                         {data.namaBarang}
                       </th>
-                      <td className="px-6 py-4">{data.harga}</td>
-                      <td className="px-6 py-4">{data.stock}</td>
-                      {role === "admin" ? (
-                        <td className="px-6 py-4 text-left">
-                          <Link
-                            to={`/inventaris/edit/${data.id}`}
-                            href="#"
-                            className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                          >
-                            Edit
-                          </Link>
-                          <a
-                            href="#"
-                            className="ml-5 font-medium text-red-600 dark:text-red-500 hover:underline"
-                            onClick={() => handleDelete(data.id)}
-                          >
-                            Delete
-                          </a>
-                        </td>
-                      ) : null}
+                      <td className="px-6 py-4">{data.jenis}</td>
+                      <td className="px-6 py-4">{data.keterangan}</td>
+                      <td className="px-6 py-4">{data.jumlah}</td>
+                      <td className="px-6 py-4">
+                        {formatDate(data.created_at)}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
