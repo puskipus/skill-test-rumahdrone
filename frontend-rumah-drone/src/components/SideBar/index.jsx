@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import SideBarAdmin from "./SideBarAdmin";
 import { NavLink } from "react-router-dom";
 import SideBarStaff from "./SideBarStaff";
+import NavlinkSidebar from "../Navlink/NavlinkSidebar";
 
 export default function Sidebar() {
   const [role, setRole] = useState("");
@@ -42,6 +43,17 @@ export default function Sidebar() {
                 </svg>
                 <span className="ms-3">Dashboard</span>
               </NavLink>
+            </li>
+
+            {/* Inventaris */}
+            <li>
+              <NavlinkSidebar
+                to="/inventaris"
+                icon={
+                  <path d="M17 5.923A1 1 0 0 0 16 5h-3V4a4 4 0 1 0-8 0v1H2a1 1 0 0 0-1 .923L.086 17.846A2 2 0 0 0 2.08 20h13.84a2 2 0 0 0 1.994-2.153L17 5.923ZM7 9a1 1 0 0 1-2 0V7h2v2Zm0-5a2 2 0 1 1 4 0v1H7V4Zm6 5a1 1 0 1 1-2 0V7h2v2Z" />
+                }
+                text="Inventaris"
+              />
             </li>
 
             {role === "admin" ? <SideBarAdmin /> : <SideBarStaff />}

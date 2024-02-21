@@ -23,11 +23,14 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
     Route::post('me', [AuthController::class, 'me']);
 });
 
-Route::group(['middleware' => ['api', 'role:admin'], 'prefix' => 'inventaris'], function ($router) {
-    Route::post('/', [InventarisController::class, 'create']);
+Route::group(['middleware' => ['api'], 'prefix' => 'inventaris'], function ($router) {
     Route::get('/', [InventarisController::class, 'get']);
-    Route::get('/{id}', [InventarisController::class, 'getByID']);
-    Route::delete('/{id}', [InventarisController::class, 'destroy']);
-    Route::post('/update/{id}', [InventarisController::class, 'update']);
+
+    Route::middleware(['role:admin'])->group(function () {
+        Route::post('/', [InventarisController::class, 'create']);
+        Route::get('/{id}', [InventarisController::class, 'getByID']);
+        Route::delete('/{id}', [InventarisController::class, 'destroy']);
+        Route::post('/update/{id}', [InventarisController::class, 'update']);
+    });
 });
 

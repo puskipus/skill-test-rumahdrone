@@ -5,7 +5,7 @@ export default function SideBarStaff() {
   return (
     <div>
       {/* account */}
-      <li>
+      {/* <li>
         <NavlinkSidebar
           to="/customer"
           icon={
@@ -13,7 +13,7 @@ export default function SideBarStaff() {
           }
           text="Customer"
         />
-      </li>
+      </li> */}
     </div>
   );
 }
