@@ -23,18 +23,11 @@ class StokController extends Controller
             return response()->json($validator->messages());
         }
 
-        // $inventaris = Inventaris::where('namaBarang', request()->namaBarang)->first();
-        // return response()->json($inventaris, 200);
-
         try {
             $inventaris = Inventaris::where('namaBarang', request()->namaBarang)->first();
         } catch (ModelNotFoundException $e) {
             return response()->json(['message' => 'Inventaris Not Found'], 404);
         }
-
-        // if (!$inventaris) {
-        //     return response()->json(['message' => 'Inventaris Not Found'], 404);
-        // }
 
         if (request()->jenis == "Barang Keluar") {
             if ($inventaris->stock - request()->jumlah < 0 ) {
@@ -59,6 +52,18 @@ class StokController extends Controller
             return response()->json(['message' => 'Create Stok Success'], 200);
         } else {
             return response()->json(['message' => 'Create Stok Failed'], 404);
+        }
+    }
+
+    public function get()
+    {
+
+        $stok = Stok::get();
+
+        if ($stok) {
+            return response()->json($stok, 200);
+        } else {
+            return response()->json(['message' => 'Get Stok Failed'], 404);
         }
     }
 }

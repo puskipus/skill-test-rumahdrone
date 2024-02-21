@@ -37,13 +37,10 @@ Route::group(['middleware' => ['api'], 'prefix' => 'inventaris'], function ($rou
 });
 
 Route::group(['middleware' => ['api'], 'prefix' => 'stok'], function ($router) {
-    Route::get('/', [InventarisController::class, 'get']);
+    Route::get('/', [StokController::class, 'get']);
 
     Route::middleware(['role:staff'])->group(function () {
         Route::post('/', [StokController::class, 'create']);
-        Route::get('/{id}', [InventarisController::class, 'getByID']);
-        Route::delete('/{id}', [InventarisController::class, 'destroy']);
-        Route::post('/update/{id}', [InventarisController::class, 'update']);
     });
 });
 
