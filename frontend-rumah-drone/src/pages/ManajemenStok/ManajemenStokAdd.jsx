@@ -18,7 +18,7 @@ export default function ManajemenStokAdd() {
     namaBarang: "",
     jenis: "",
     keterangan: "",
-    stock: "",
+    jumlah: "",
   });
 
   const handleChange = (e) => {
@@ -119,8 +119,8 @@ export default function ManajemenStokAdd() {
             <Input
               type={"text"}
               label="Jumlah Stok"
-              id="stock"
-              name="stock"
+              id="jumlah"
+              name="jumlah"
               placeholder="10"
               onChange={handleChange}
               required
