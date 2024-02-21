@@ -38,7 +38,7 @@ class StokController extends Controller
 
         if (request()->jenis == "Barang Keluar") {
             if ($inventaris->stock - request()->jumlah < 0 ) {
-                return response()->json(['message' => 'Stok hanya tersisa ' . $inventaris->stock], 404);
+                return response()->json(['error' => 'Stok hanya tersisa ' . $inventaris->stock], 404);
             }
             $inventaris->stock = $inventaris->stock - request()->jumlah;
         } else {

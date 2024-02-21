@@ -43,14 +43,16 @@ export default function ManajemenStokAdd() {
     e.preventDefault();
 
     const result = await Swal.fire({
-      title: "Anda yakin menambahkan barang ini?",
+      title: "Anda yakin mengatur stok barang ini?",
       icon: "question",
       showCancelButton: true,
       confirmButtonText: "Yes",
       cancelButtonText: "No",
     });
     if (result.isConfirmed) {
-      const res = await postData(`/inventaris`, form);
+      const res = await postData(`/stok`, form);
+      // console.log(res.response.data.error);
+      console.log(res);
 
       if (res?.data?.message) {
         toast.success(res?.data?.message, {
@@ -63,9 +65,9 @@ export default function ManajemenStokAdd() {
           progress: undefined,
         });
 
-        navigate("/inventaris");
+        navigate("/stok");
       } else {
-        toast.error(res?.response?.data?.error, {
+        toast.error(res.response.data.error, {
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -91,7 +93,7 @@ export default function ManajemenStokAdd() {
 
       <div className="p-4 sm:ml-64">
         <div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14">
-          <h1 className="text-3xl">Tambahkan Barang</h1>
+          <h1 className="text-3xl">Atur Stok Baru</h1>
 
           <form className="max-w-sm mt-16" onSubmit={handleSubmit}>
             <SelectInput
