@@ -9,6 +9,7 @@ import InventarisAdd from "../pages/Inventaris/InventarisAdd";
 import InventarisUpdate from "../pages/Inventaris/InventarisUpdate";
 import ManajemenStok from "../pages/ManajemenStok/ManajemenStok";
 import GuardRoleRoute from "../components/GuardRoleRoute";
+import ManajemenStokAdd from "../pages/ManajemenStok/ManajemenStokAdd";
 
 export function AppRoutes() {
   return (
@@ -67,6 +68,17 @@ export function AppRoutes() {
         element={
           <GuardRoute>
             <ManajemenStok />
+          </GuardRoute>
+        }
+      />
+
+      <Route
+        path="/stok/add"
+        element={
+          <GuardRoute>
+            <GuardRoleRoute role={"staff"}>
+              <ManajemenStokAdd />
+            </GuardRoleRoute>
           </GuardRoute>
         }
       />
