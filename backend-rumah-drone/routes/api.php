@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\InventarisController;
+use App\Http\Controllers\StokController;
+use App\Models\Stok;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -38,7 +40,7 @@ Route::group(['middleware' => ['api'], 'prefix' => 'stok'], function ($router) {
     Route::get('/', [InventarisController::class, 'get']);
 
     Route::middleware(['role:staff'])->group(function () {
-        Route::post('/', [InventarisController::class, 'create']);
+        Route::post('/', [StokController::class, 'create']);
         Route::get('/{id}', [InventarisController::class, 'getByID']);
         Route::delete('/{id}', [InventarisController::class, 'destroy']);
         Route::post('/update/{id}', [InventarisController::class, 'update']);
