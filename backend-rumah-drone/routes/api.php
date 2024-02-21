@@ -42,5 +42,9 @@ Route::group(['middleware' => ['api'], 'prefix' => 'stok'], function ($router) {
     Route::middleware(['role:staff'])->group(function () {
         Route::post('/', [StokController::class, 'create']);
     });
+
+    Route::middleware(['role:admin'])->group(function () {
+        Route::get('/convert', [StokController::class, 'convert']);
+    });
 });
 

@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Inventaris;
 use App\Models\Stok;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
 
 class StokController extends Controller
@@ -65,5 +68,37 @@ class StokController extends Controller
         } else {
             return response()->json(['message' => 'Get Stok Failed'], 404);
         }
+    }
+
+    public function convert()
+    {
+
+        $stok = Stok::get();
+
+        $dataArray = [];
+        foreach ($stok as $s) {
+            $dataArray[] = [
+                'Nama Barang' => $s->namaBarang,
+                'Jenis' => $s->jenis,
+                'Keterangan' => $s->keterangan,
+                'Jumlah' => $s->jumlah,
+                'Tanggal' => $s->created_at,
+            ];
+        }
+
+        $options = new Options();
+        $options->set('isHtml5ParserEnabled', true);
+        $options->set('isPhpEnabled', true);
+
+        $pdf = new Dompdf($options);
+        $pdf->loadHtml(view('pdf.customer', ['stok' => $dataArray])->render());
+        $pdf->setPaper('A4', 'landscape');
+        $pdf->render();
+
+        $pdfContent = $pdf->output();
+        return Response::make($pdfContent, 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'attachment; filename="pelaporan.pdf"',
+        ]);
     }
 }
