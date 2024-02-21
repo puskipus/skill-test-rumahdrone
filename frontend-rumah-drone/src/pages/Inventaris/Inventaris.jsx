@@ -9,6 +9,7 @@ import Swal from "sweetalert2";
 
 export default function Inventaris() {
   const [inventaris, setInventaris] = useState([]);
+  const [role, setRole] = useState("");
 
   const fetchInventaris = async () => {
     try {
@@ -59,6 +60,7 @@ export default function Inventaris() {
   };
 
   useEffect(() => {
+    setRole(JSON.parse(localStorage.getItem("role")));
     fetchInventaris();
   }, []);
 
@@ -72,7 +74,7 @@ export default function Inventaris() {
           <div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14">
             <div className="flex justify-between items-center">
               <h1 className="text-3xl">Inventaris Barang</h1>
-              <AddButton to="/inventaris/add" />
+              {role === "admin" ? <AddButton to="/inventaris/add" /> : null}
             </div>
 
             {/* table */}
@@ -89,9 +91,11 @@ export default function Inventaris() {
                     <th scope="col" class="px-6 py-3">
                       Stock
                     </th>
-                    <th scope="col" class="px-6 py-3">
-                      Action
-                    </th>
+                    {role === "admin" ? (
+                      <th scope="col" class="px-6 py-3">
+                        Action
+                      </th>
+                    ) : null}
                   </tr>
                 </thead>
                 <tbody>
@@ -108,22 +112,24 @@ export default function Inventaris() {
                       </th>
                       <td className="px-6 py-4">{data.harga}</td>
                       <td className="px-6 py-4">{data.stock}</td>
-                      <td className="px-6 py-4 text-left">
-                        <Link
-                          to={`/inventaris/edit/${data.id}`}
-                          href="#"
-                          className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                        >
-                          Edit
-                        </Link>
-                        <a
-                          href="#"
-                          className="ml-5 font-medium text-red-600 dark:text-red-500 hover:underline"
-                          onClick={() => handleDelete(data.id)}
-                        >
-                          Delete
-                        </a>
-                      </td>
+                      {role === "admin" ? (
+                        <td className="px-6 py-4 text-left">
+                          <Link
+                            to={`/inventaris/edit/${data.id}`}
+                            href="#"
+                            className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                          >
+                            Edit
+                          </Link>
+                          <a
+                            href="#"
+                            className="ml-5 font-medium text-red-600 dark:text-red-500 hover:underline"
+                            onClick={() => handleDelete(data.id)}
+                          >
+                            Delete
+                          </a>
+                        </td>
+                      ) : null}
                     </tr>
                   ))}
                 </tbody>
